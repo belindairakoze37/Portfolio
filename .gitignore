@@ -1,0 +1,16 @@
+venv/
+node_modules/
+dist/
+*.tsbuildinfo
+__pycache__/
+*.pyc
+.env
+.env.*
+!.env.example
+db.sqlite3
+staticfiles/
+media/
+.vercel/
+.DS_Store
+.idea/
+.vscode/
