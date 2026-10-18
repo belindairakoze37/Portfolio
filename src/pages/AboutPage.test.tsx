@@ -17,9 +17,11 @@ describe('about page', () => {
     expect(screen.queryByText('SECOND PHOTO (OPTIONAL)')).not.toBeInTheDocument();
   });
 
-  it('keeps the resume action disabled until a real file is configured', () => {
+  it('links directly to the downloadable resume PDF', () => {
     render(<MemoryRouter initialEntries={['/about']}><AboutPage /></MemoryRouter>);
 
-    expect(screen.getByRole('button', { name: /download resume/i })).toBeDisabled();
+    const resumeLink = screen.getByRole('link', { name: /download resume/i });
+    expect(resumeLink).toHaveAttribute('href', '/Belinda-Irakoze-CV.pdf');
+    expect(resumeLink).toHaveAttribute('download', 'Belinda-Irakoze-CV.pdf');
   });
 });

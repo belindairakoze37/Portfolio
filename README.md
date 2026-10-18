@@ -40,7 +40,7 @@ The contact form posts directly to FormSubmit's AJAX endpoint for Belinda's publ
 
 ## Resume and social profiles
 
-Place the real PDF at `public/resume/belinda-irakoze-resume.pdf`, then set `resumePath` in `src/data/profile.ts` to `/resume/belinda-irakoze-resume.pdf`. The resume navigation action remains hidden until a path is configured. Add only a verified LinkedIn URL and a preferred public email in the same profile file.
+The downloadable CV is served from `public/Belinda-Irakoze-CV.pdf`. The About page links to `/Belinda-Irakoze-CV.pdf` and downloads it with that filename. Add only a verified LinkedIn URL and a preferred public email in `src/data/profile.ts`.
 
 ## SEO and sharing
 
@@ -81,7 +81,6 @@ The portfolio is a client-side React application built with Vite. It has no back
 - Belindaâ€™s specific module ownership for AgriSmart and the Hospital API.
 - Further contribution detail for Nyondo and project test evidence/status updates.
 - Current implementation status and test evidence for the projects.
-- Real PDF rÃ©sumÃ© to enable the resume action.
 - Confirm the first FormSubmit verification email to activate contact-form delivery.
 - Production domain.
 
