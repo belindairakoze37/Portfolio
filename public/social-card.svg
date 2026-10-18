@@ -1,0 +1,20 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="630" viewBox="0 0 1200 630">
+  <defs>
+    <linearGradient id="background" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#102849" />
+      <stop offset=".55" stop-color="#08162d" />
+      <stop offset="1" stop-color="#050d20" />
+    </linearGradient>
+  </defs>
+  <rect width="1200" height="630" fill="url(#background)" />
+  <circle cx="105" cy="103" r="8" fill="#3193ff" />
+  <text x="126" y="111" font-family="Georgia,serif" font-size="25" fill="#dbe5f6">Belinda Irakoze</text>
+  <text x="95" y="201" font-family="Arial,sans-serif" font-size="15" font-weight="700" letter-spacing="2" fill="#6cd8ff">SOFTWARE ENGINEERING · KAMPALA, UGANDA</text>
+  <text x="92" y="328" font-family="Georgia,serif" font-size="76" fill="#dbe5f6">Backend engineer</text>
+  <text x="92" y="415" font-family="Georgia,serif" font-size="69" fill="#dbe5f6">building reliable APIs</text>
+  <text x="94" y="484" font-family="Arial,sans-serif" font-size="24" fill="#9aa9bf">Python · Django · REST APIs · Practical software</text>
+  <rect x="950" y="112" width="160" height="300" rx="16" fill="#0e1c36" stroke="#2b5488" stroke-width="2" stroke-dasharray="7 7" />
+  <text x="1030" y="269" text-anchor="middle" font-family="Arial,sans-serif" font-size="17" font-weight="700" fill="#dbe5f6">YOUR PHOTO HERE</text>
+  <text x="1030" y="300" text-anchor="middle" font-family="Arial,sans-serif" font-size="14" fill="#8ec4ff">Portrait · 4:5</text>
+  <text x="96" y="574" font-family="Arial,sans-serif" font-size="16" fill="#b9c8dd">Kampala, Uganda · Refactory Academy Software Engineering Apprentice</text>
+</svg>
