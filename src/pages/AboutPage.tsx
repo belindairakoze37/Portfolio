@@ -20,6 +20,8 @@ export function AboutPage() {
             <h1 id="about-title">Early-career engineer,<br className="about-title-break" />serious about the<br className="about-title-break" />fundamentals.</h1>
             <p className="about-lede">I’m growing as a full-stack software engineer through structured training and practical projects. I build accessible interfaces with React and TypeScript, connect them to APIs, and work with the data workflows behind reliable applications.</p>
             <p className="about-followup">I value clear communication, thoughtful problem-solving and testing that helps the whole system work together.</p>
+            <p className="about-followup">I am an excellent team player who collaborates effectively with others to develop innovative solutions that best meet clients’ needs.</p>
+            
           </div>
           <aside className="about-aside" aria-label="Profile details">
             <div className="profile-facts">

@@ -38,7 +38,7 @@ export function HomePage() {
             <p className="availability-pill">{profile.location} · Open to opportunities</p>
             <p className="sr-only">{profile.title} focused on {profile.focus}</p>
             <h1 id="hero-title">Junior full-stack engineer<br />building useful web apps<br />from UI to API.</h1>
-            <p className="hero-intro">I’m Irakoze Belinda, a junior full-stack software engineer building frontend experiences with React and TypeScript and backend APIs with Django REST Framework. I care about clean code, accessible interfaces and software that works reliably.</p>
+            <p className="hero-intro">I’m Irakoze Belinda, a junior full-stack software engineer building frontend experiences with React and TypeScript and backend APIs with Django REST Framework. I care about clean code, accessible user-friendly interfaces and software that works reliably.</p>
             <div className="hero-actions">
               <a className="button button-primary" href="#projects">View projects <ArrowRight size={16} aria-hidden="true" /></a>
               <Link className="button button-secondary" to="/contact">Contact</Link>
