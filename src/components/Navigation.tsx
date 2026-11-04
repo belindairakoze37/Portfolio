@@ -12,8 +12,7 @@ const links = [
   { href: '/contact', label: 'Contact', key: 'contact' },
 ];
 
-export function Navigation() {
-  const [open, setOpen] = useState(false);
+export function Navigation() {  const [open, setOpen] = useState(false);
   const location = useLocation();
   const activeKey = location.pathname === '/about'
     ? 'about'
@@ -32,7 +31,12 @@ export function Navigation() {
   return (
     <header className="site-header">
       <Link className="brand" to="/" aria-label={`${profile.name}, home`} onClick={() => setOpen(false)}>
-        <span className="brand-dot" aria-hidden="true" />Belinda Irakoze
+        <span className="brand-text">
+          <span className="brand-name">
+            Belinda <em>Irakoze</em>
+            <span className="brand-mark" aria-hidden="true" />
+          </span>
+        </span>
       </Link>
       <button
         className="menu-toggle"
