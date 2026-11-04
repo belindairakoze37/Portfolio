@@ -44,7 +44,7 @@ const featuredProjects = featuredSlugs.flatMap((slug) => {
 export function ProjectsPage() {
   return <>
     <Navigation />
-    <main className="page-shell content-page projects-page">
+    <main className="container content-page projects-page">
       <header className="content-page-header">
         <p className="eyebrow">Projects</p>
         <h1>Selected projects</h1>

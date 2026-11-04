@@ -30,7 +30,7 @@ export function AboutPage() {
     <>
       <a className="skip-link" href="#main">Skip to content</a>
       <Navigation />
-      <main id="main" className="about-page page-shell">
+      <main id="main" className="about-page container">
         <section className="about-hero" aria-labelledby="about-title">
           <div className="about-main">
             <div className="about-copy">

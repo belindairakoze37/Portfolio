@@ -29,7 +29,7 @@ export function ExperiencePage() {
 
   return <>
     <Navigation />
-    <main className="page-shell content-page experience-page">
+    <main className="container content-page experience-page">
       <header className="content-page-header">
         <p className="eyebrow">Experience &amp; education</p>
         <h1>Training and project work.</h1>

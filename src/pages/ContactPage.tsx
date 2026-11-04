@@ -40,7 +40,7 @@ export function ContactPage() {
 
   return <>
     <Navigation />
-    <main className="page-shell content-page contact-page">
+    <main className="container content-page contact-page">
       <section className="contact-page-layout" aria-labelledby="contact-page-title">
         <div className="contact-page-copy">
           <p className="eyebrow">Contact</p>
@@ -82,12 +82,14 @@ export function ContactPage() {
       </section>
     </main>
     <footer className="site-footer contact-footer">
-      <span className="brand">Belinda Irakoze</span>
-      <nav className="site-footer-links" aria-label="Social profiles">
-        <a href={profile.github} target="_blank" rel="noopener noreferrer">GitHub</a>
-        <a href={profile.linkedin} target="_blank" rel="noopener noreferrer">LinkedIn</a>
-      </nav>
-      <p>Built with React and Django REST Framework</p>
+      <div className="container site-footer-inner">
+        <span className="brand">Belinda Irakoze</span>
+        <nav className="site-footer-links" aria-label="Social profiles">
+          <a href={profile.github} target="_blank" rel="noopener noreferrer">GitHub</a>
+          <a href={profile.linkedin} target="_blank" rel="noopener noreferrer">LinkedIn</a>
+        </nav>
+        <p>Built with React and Django REST Framework</p>
+      </div>
     </footer>
   </>;
 }

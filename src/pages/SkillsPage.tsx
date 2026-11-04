@@ -37,7 +37,7 @@ function ContextLine({ note, noteLinks }: Pick<SkillGroup, 'note' | 'noteLinks'>
 export function SkillsPage() {
   return <>
     <Navigation />
-    <main className="page-shell content-page skills-page">
+    <main className="container content-page skills-page">
       <header className="content-page-header">
         <p className="eyebrow">Skills</p>
         <h1>Tools, with the work to back them up.</h1>

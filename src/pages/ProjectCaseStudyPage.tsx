@@ -13,8 +13,13 @@ export function ProjectCaseStudyPage() {
 
   return (
     <div className="case-study-page">
-      <header className="case-header"><Link className="brand" to="/">BELINDA<span>.</span></Link><Link className="case-back" to="/#projects"><ArrowLeft size={15} /> All projects</Link></header>
-      <main className="case-main">
+      <header className="case-header">
+        <div className="container case-header-inner">
+          <Link className="brand" to="/">BELINDA<span>.</span></Link>
+          <Link className="case-back" to="/#projects"><ArrowLeft size={15} /> All projects</Link>
+        </div>
+      </header>
+      <main className="container case-main">
         <p className="eyebrow">PROJECT NOTES · {project.category}</p>
         <h1>{project.name}</h1>
         <p className="case-summary">{project.summary}</p>
