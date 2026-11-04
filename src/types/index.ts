@@ -24,10 +24,22 @@ export interface Project {
   tone: 'navy' | 'blue' | 'slate';
 }
 
+export interface SkillTag {
+  name: string;
+  /** Marks the skills that lead the page; core tags get the accent treatment. */
+  core?: boolean;
+}
+
 export interface SkillGroup {
   title: string;
   note: string;
-  skills: string[];
+  /** Project names inside `note` that link to their case study. */
+  noteLinks?: { label: string; to: string }[];
+  skills: SkillTag[];
+  /** Spans two grid columns on desktop and tablet. */
+  wide?: boolean;
+  /** Renders the tags quieter than the technical groups. */
+  quiet?: boolean;
 }
 
 export interface ExperienceItem {
@@ -36,4 +48,6 @@ export interface ExperienceItem {
   period: string;
   detail: string;
   kind: 'training' | 'project';
+  /** Short bullets for the featured entry; up to three are rendered. */
+  highlights?: string[];
 }

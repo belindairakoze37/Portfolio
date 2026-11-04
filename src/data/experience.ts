@@ -7,6 +7,7 @@ export const experience: ExperienceItem[] = [
     period: 'In progress · expected December 2026',
     detail: 'Developing software engineering skills through structured training and practical work. This is an apprenticeship, not employment.',
     kind: 'training',
+    highlights: [],
   },
   {
     title: 'Practical software projects',
