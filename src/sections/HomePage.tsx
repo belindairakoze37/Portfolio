@@ -70,7 +70,7 @@ export function HomePage() {
     <>
       <a className="skip-link" href="#main">Skip to content</a>
       <Navigation />
-      <main id="main" className="page-shell">
+      <main id="main" className="container">
         <section className="home-hero" id="home" aria-labelledby="hero-title">
           <div className="hero-inner">
             <div className="hero-copy">
@@ -124,7 +124,13 @@ export function HomePage() {
           <ContactForm />
         </section>
       </main>
-      <footer className="site-footer"><Link to="/" className="brand"><span className="brand-dot" aria-hidden="true" />Belinda Irakoze</Link><p>Growing as an engineer, one useful solution at a time.</p><span>© {new Date().getFullYear()} Irakoze Belinda</span></footer>
+      <footer className="site-footer">
+        <div className="container site-footer-inner">
+          <Link to="/" className="brand"><span className="brand-dot" aria-hidden="true" />Belinda Irakoze</Link>
+          <p>Growing as an engineer, one useful solution at a time.</p>
+          <span>© {new Date().getFullYear()} Irakoze Belinda</span>
+        </div>
+      </footer>
     </>
   );
 }
