@@ -17,7 +17,7 @@ afterEach(() => {
 describe('portfolio home page', () => {
   it('renders the identity, sections, and selected featured projects', () => {
     renderHome();
-    expect(screen.getByRole('heading', { name: /junior full-stack engineer building useful web apps from ui to api/i })).toBeInTheDocument();
+    expect(screen.getByRole('heading', { name: /belinda irakoze junior full-stack developer/i })).toBeInTheDocument();
     expect(screen.getByRole('heading', { name: /selected projects/i })).toBeInTheDocument();
     expect(screen.getByRole('heading', { name: 'GreenHill Schools ISMP' })).toBeInTheDocument();
     expect(screen.getByRole('heading', { name: 'AgriSmart Platform' })).toBeInTheDocument();
@@ -55,7 +55,9 @@ describe('portfolio home page', () => {
     await user.type(screen.getByLabelText('Email address'), 'belinda@example.com');
     await user.type(screen.getByLabelText('Message'), 'I would like to discuss a software opportunity.');
     await user.click(screen.getByRole('button', { name: /send message/i }));
-    expect(await screen.findByRole('status')).toHaveTextContent('Your message was accepted.');
+    expect(await screen.findByRole('status')).toHaveTextContent('Thanks, your message is on its way.');
+    expect(screen.getByLabelText('Your name')).toHaveValue('');
+    expect(screen.getByLabelText('Message')).toHaveValue('');
     expect(fetch).toHaveBeenCalledWith('https://formsubmit.co/ajax/belindairakoze37@gmail.com', expect.objectContaining({ body: expect.stringContaining('"_honey":""') }));
     expect(JSON.parse(vi.mocked(fetch).mock.calls[0]?.[1]?.body as string)).toMatchObject({
       email: 'belinda@example.com',
@@ -72,7 +74,7 @@ describe('portfolio home page', () => {
     await user.type(screen.getByLabelText('Email address'), 'belinda@example.com');
     await user.type(screen.getByLabelText('Message'), 'I would like to discuss a software opportunity.');
     await user.click(screen.getByRole('button', { name: /send message/i }));
-    expect(await screen.findByRole('alert')).toHaveTextContent('The message could not be sent.');
+    expect(await screen.findByRole('alert')).toHaveTextContent('Something went wrong and your message wasn’t sent.');
   });
 
 });

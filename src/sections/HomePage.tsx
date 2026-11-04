@@ -1,4 +1,4 @@
-import { ArrowRight, ArrowUpRight, Github, MapPin } from 'lucide-react';
+import { ArrowRight, ArrowUpRight, Github, Mail, MapPin } from 'lucide-react';
 import { useEffect, useState } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { ContactForm } from '../components/ContactForm';
@@ -10,11 +10,49 @@ import { projects } from '../data/projects';
 import { skillGroups } from '../data/skills';
 
 const featuredSlugs = ['greenhill-schools-ismp', 'agrismart-platform', 'nyondo-general-hardware'];
+const heroRole = 'Junior Full-Stack Developer';
+const heroRoles = ['Junior Full-Stack Developer', 'Backend Developer', 'Frontend Developer', 'Python Developer'] as const;
 const featuredProjects = featuredSlugs.map((slug) => projects.find((project) => project.slug === slug)).filter((project) => project !== undefined);
-const focusAreas = ['React & TypeScript interfaces', 'Responsive, accessible UI', 'REST API design', 'Data, validation & testing'];
+
+function prefersReducedMotion() {
+  return typeof window !== 'undefined' && typeof window.matchMedia === 'function' && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+}
+
+function useRotatingText(words: readonly string[]) {
+  const [reducedMotion] = useState(prefersReducedMotion);
+  const [wordIndex, setWordIndex] = useState(0);
+  const [letterCount, setLetterCount] = useState(0);
+  const [erasing, setErasing] = useState(false);
+
+  useEffect(() => {
+    if (reducedMotion) return;
+    const word = words[wordIndex] ?? '';
+    const finishedTyping = !erasing && letterCount >= word.length;
+    const finishedErasing = erasing && letterCount === 0;
+    let delay = 25;
+    if (finishedTyping) delay = 1500;
+    else if (finishedErasing) delay = 280;
+    else if (!erasing) delay = 65;
+
+    const timer = window.setTimeout(() => {
+      if (finishedTyping) setErasing(true);
+      else if (finishedErasing) {
+        setErasing(false);
+        setLetterCount(0);
+        setWordIndex((index) => (index + 1) % words.length);
+      } else setLetterCount((count) => count + (erasing ? -1 : 1));
+    }, delay);
+
+    return () => window.clearTimeout(timer);
+  }, [erasing, letterCount, reducedMotion, wordIndex, words]);
+
+  if (reducedMotion) return { text: words[0] ?? '', wordIndex: 0 };
+  return { text: (words[wordIndex] ?? '').slice(0, letterCount), wordIndex };
+}
 
 export function HomePage() {
   const [portraitUnavailable, setPortraitUnavailable] = useState(false);
+  const rotatingRole = useRotatingText(heroRoles);
   const { hash } = useLocation();
 
   useEffect(() => {
@@ -34,29 +72,36 @@ export function HomePage() {
       <Navigation />
       <main id="main" className="page-shell">
         <section className="home-hero" id="home" aria-labelledby="hero-title">
-          <div className="hero-copy">
-            <p className="availability-pill">{profile.location} · Open to opportunities</p>
-            <p className="sr-only">{profile.title} focused on {profile.focus}</p>
-            <h1 id="hero-title">Junior full-stack engineer<br />building useful web apps<br />from UI to API.</h1>
-            <p className="hero-intro">I’m Irakoze Belinda, a junior full-stack software engineer building frontend experiences with React and TypeScript and backend APIs with Django REST Framework. I care about clean code, accessible user-friendly interfaces and software that works reliably.</p>
-            <div className="hero-actions">
-              <a className="button button-primary" href="#projects">View projects <ArrowRight size={16} aria-hidden="true" /></a>
-              <Link className="button button-secondary" to="/contact">Contact</Link>
+          <div className="hero-inner">
+            <div className="hero-copy">
+              <p className="hero-hello">Hello, I’m</p>
+              <p className="sr-only">{heroRole} focused on {profile.focus}</p>
+              <h1 id="hero-title">
+                <span className="hero-name">Belinda Irakoze</span>
+                <span className="sr-only">{heroRole}</span>
+                <span className="hero-role" aria-hidden="true">
+                  {Array.from(rotatingRole.text).map((char, index) => (
+                    <span className="hero-role-char" key={`${rotatingRole.wordIndex}-${index}`}>{char === ' ' ? '\u00a0' : char}</span>
+                  ))}
+                </span>
+              </h1>
+              <p className="hero-intro">I build thoughtful web experiences with React and TypeScript, backed by reliable APIs in Django REST Framework. I care about clean code, accessible and user-friendly interfaces, and software that works as it should.</p>
+              <div className="hero-actions">
+                <a className="button button-primary" href="#projects">View My Work <ArrowRight size={16} aria-hidden="true" /></a>
+                <Link className="button button-secondary" to="/contact"><Mail size={16} aria-hidden="true" /> Contact Me</Link>
+              </div>
             </div>
+            <div className="hero-media">
+              <div className={portraitUnavailable ? 'hero-portrait photo-placeholder home-photo-placeholder' : 'hero-portrait'}>
+                {portraitUnavailable ? (
+                  <div><strong>YOUR PHOTO HERE</strong><span>Portrait, waist up<br />transparent PNG</span></div>
+                ) : (
+                  <img className="profile-portrait" src="/images/belinda-portrait-circle.jpg?v=2" alt="Irakoze Belinda" onError={() => setPortraitUnavailable(true)} />
+                )}
+              </div>
+            </div>
+            
           </div>
-          <aside className="hero-aside" aria-label="Profile and focus areas">
-            <div className="photo-placeholder home-photo-placeholder">
-              {portraitUnavailable ? (
-                <div><strong>YOUR PHOTO HERE</strong><span>Portrait, 4:5 ratio<br />at least 800 × 1000 px</span></div>
-              ) : (
-                <img className="profile-portrait" src="/images/belinda-irakoze-portrait.jpeg" alt="Irakoze Belinda" onError={() => setPortraitUnavailable(true)} />
-              )}
-            </div>
-            <div className="focus-card">
-              <h2>Focus areas</h2>
-              <ul>{focusAreas.map((area) => <li key={area}>{area}</li>)}</ul>
-            </div>
-          </aside>
         </section>
 
         <section className="projects-section" id="projects" aria-labelledby="projects-title">
@@ -66,7 +111,7 @@ export function HomePage() {
 
         <section className="lower-section" id="skills" aria-labelledby="skills-title">
           <div className="lower-heading"><p className="eyebrow">PRACTICE & TOOLKIT</p><h2 id="skills-title">Tools I use to solve problems.</h2></div>
-          <div className="skill-groups">{skillGroups.map((group) => <article className="skill-group" key={group.title}><div><h3>{group.title}</h3><span>{group.note}</span></div><ul>{group.skills.map((skill) => <li key={skill}>{skill}</li>)}</ul></article>)}</div>
+          <div className="skill-groups">{skillGroups.map((group) => <article className="skill-group" key={group.title}><div><h3>{group.title}</h3><span>{group.note}</span></div><ul>{group.skills.map((skill) => <li key={skill.name}>{skill.name}</li>)}</ul></article>)}</div>
         </section>
 
         <section className="lower-section experience-section" id="experience" aria-labelledby="experience-title">
