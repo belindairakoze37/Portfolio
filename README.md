@@ -36,7 +36,11 @@ The public repositories for AgriSmart, Nyondo General Hardware, and the Hospital
 
 ## Contact form setup
 
-The contact form posts directly to FormSubmit's AJAX endpoint for Belinda's public email address. On the first submission, FormSubmit emails Belinda a verification request; she must confirm it to activate delivery. After activation, messages are emailed to `belindairakoze37@gmail.com` and the sender's email is set as Reply-To. No environment variable or account is required. FormSubmit receives the submitted form data, so do not collect sensitive information in this form.
+1. Create a form in Formspree for `belindairakoze37@gmail.com`.
+2. Confirm the verification email Formspree sends to that address.
+3. Copy the Formspree endpoint into `.env` as `VITE_FORMSPREE_ENDPOINT`, for example `VITE_FORMSPREE_ENDPOINT=https://formspree.io/f/your_form_id`.
+4. Restart `npm run dev` so Vite reads the variable.
+5. In Vercel Project Settings, add `VITE_FORMSPREE_ENDPOINT` with the same endpoint, then redeploy the project.
 
 ## Resume and social profiles
 
@@ -83,4 +87,3 @@ The portfolio is a client-side React application built with Vite. It has no back
 - Current implementation status and test evidence for the projects.
 - Confirm the first FormSubmit verification email to activate contact-form delivery.
 - Production domain.
-

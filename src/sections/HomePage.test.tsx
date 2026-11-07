@@ -1,5 +1,5 @@
 import { afterEach, describe, expect, it, vi } from 'vitest';
-import { render, screen, within, cleanup } from '@testing-library/react';
+import { render, screen, within, cleanup, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { MemoryRouter } from 'react-router-dom';
 import { HomePage } from './HomePage';
@@ -41,33 +41,37 @@ describe('portfolio home page', () => {
   it('shows inline validation errors for invalid contact fields', async () => {
     const user = userEvent.setup();
     renderHome();
+    await user.type(screen.getByLabelText('Email address'), 'not-an-email');
     await user.click(screen.getByRole('button', { name: /send message/i }));
     expect(await screen.findByText('Please enter at least 2 characters.')).toBeInTheDocument();
     expect(screen.getByText('Enter a valid email address.')).toBeInTheDocument();
     expect(screen.getByText('Please enter at least 10 characters.')).toBeInTheDocument();
   });
 
-  it('reports success only after the configured service accepts a message', async () => {
-    vi.stubGlobal('fetch', vi.fn().mockResolvedValue({ ok: true, json: () => Promise.resolve({ success: true }) }));
+  it('shows success only after Formspree accepts the message', async () => {
+    vi.stubEnv('VITE_FORMSPREE_ENDPOINT', 'https://formspree.io/f/test-form');
+    vi.stubGlobal('fetch', vi.fn().mockResolvedValue({ ok: true }));
     const user = userEvent.setup();
     renderHome();
     await user.type(screen.getByLabelText('Your name'), 'Belinda Irakoze');
     await user.type(screen.getByLabelText('Email address'), 'belinda@example.com');
     await user.type(screen.getByLabelText('Message'), 'I would like to discuss a software opportunity.');
     await user.click(screen.getByRole('button', { name: /send message/i }));
-    expect(await screen.findByRole('status')).toHaveTextContent('Thanks, your message is on its way.');
+    expect(await screen.findByRole('status')).toHaveTextContent('Thanks, your message has been sent.');
     expect(screen.getByLabelText('Your name')).toHaveValue('');
     expect(screen.getByLabelText('Message')).toHaveValue('');
-    expect(fetch).toHaveBeenCalledWith('https://formsubmit.co/ajax/belindairakoze37@gmail.com', expect.objectContaining({ body: expect.stringContaining('"_honey":""') }));
-    expect(JSON.parse(vi.mocked(fetch).mock.calls[0]?.[1]?.body as string)).toMatchObject({
-      email: 'belinda@example.com',
-      _replyto: 'belinda@example.com',
-      _subject: 'Portfolio message from Belinda Irakoze',
-    });
+    expect(fetch).toHaveBeenCalledWith('https://formspree.io/f/test-form', expect.objectContaining({
+      method: 'POST',
+      headers: { Accept: 'application/json', 'Content-Type': 'application/json' },
+    }));
   });
 
-  it('shows useful feedback when message delivery fails', async () => {
-    vi.stubGlobal('fetch', vi.fn().mockResolvedValue({ ok: false, status: 400, json: () => Promise.resolve({}) }));
+  it.each([
+    ['rejects the request', vi.fn().mockRejectedValue(new Error('network failure'))],
+    ['returns a non-ok response', vi.fn().mockResolvedValue({ ok: false })],
+  ])('shows an error when fetch %s', async (_case, fetchMock) => {
+    vi.stubEnv('VITE_FORMSPREE_ENDPOINT', 'https://formspree.io/f/test-form');
+    vi.stubGlobal('fetch', fetchMock);
     const user = userEvent.setup();
     renderHome();
     await user.type(screen.getByLabelText('Your name'), 'Belinda Irakoze');
@@ -75,6 +79,32 @@ describe('portfolio home page', () => {
     await user.type(screen.getByLabelText('Message'), 'I would like to discuss a software opportunity.');
     await user.click(screen.getByRole('button', { name: /send message/i }));
     expect(await screen.findByRole('alert')).toHaveTextContent('Something went wrong and your message wasn’t sent.');
+    expect(screen.getByLabelText('Message')).toHaveValue('I would like to discuss a software opportunity.');
+  });
+
+  it('shows the unconfigured state without calling fetch', async () => {
+    vi.stubEnv('VITE_FORMSPREE_ENDPOINT', '');
+    vi.stubGlobal('fetch', vi.fn());
+    const user = userEvent.setup();
+    renderHome();
+    await user.type(screen.getByLabelText('Your name'), 'Belinda Irakoze');
+    await user.type(screen.getByLabelText('Email address'), 'belinda@example.com');
+    await user.type(screen.getByLabelText('Message'), 'I would like to discuss a software opportunity.');
+    await user.click(screen.getByRole('button', { name: /send message/i }));
+    expect(await screen.findByRole('alert')).toHaveTextContent('The form isn’t active right now. Please email me directly');
+    expect(fetch).not.toHaveBeenCalled();
+  });
+
+  it('disables the button while sending', async () => {
+    vi.stubEnv('VITE_FORMSPREE_ENDPOINT', 'https://formspree.io/f/test-form');
+    vi.stubGlobal('fetch', vi.fn(() => new Promise(() => undefined)));
+    const user = userEvent.setup();
+    renderHome();
+    await user.type(screen.getByLabelText('Your name'), 'Belinda Irakoze');
+    await user.type(screen.getByLabelText('Email address'), 'belinda@example.com');
+    await user.type(screen.getByLabelText('Message'), 'I would like to discuss a software opportunity.');
+    await user.click(screen.getByRole('button', { name: /send message/i }));
+    await waitFor(() => expect(screen.getByRole('button', { name: /sending/i })).toBeDisabled());
   });
 
 });
